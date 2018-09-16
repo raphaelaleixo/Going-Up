@@ -1,4 +1,5 @@
-# goingup
+# Going-Up
+A Vue.js digital multiplayer boardgame
 
 ## Project setup
 ```
