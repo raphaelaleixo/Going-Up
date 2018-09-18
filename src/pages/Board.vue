@@ -1,17 +1,19 @@
 <template>
   <div>
     <div>
-      Nuvem: {{cloud.points}} ponto(s) / {{cloud.dice}} dados<br/>
+      Nuvem: {{game.turn.cloud}} / {{cloud.points}} ponto(s) / {{cloud.dice}} dados<br/>
       Dados: {{game.turn.dice}}
     </div>
     <hr/>
     <pilot       
         @selectionCommited="setPilotSelection($event)"
+        @playerChanged="updatePlayer($event)"
         :index="game.turn.pilot"
         :dice="game.turn.dice"
         :points="cloud.points"
+        :is-alone="game.turn.flyingSolo"
         :player="game.players[game.turn.pilot]"
-        :canCommit="isDecisionMade"/>
+        :can-commit="isDecisionMade"/>
     <hr/>
     <div class="players">
       <player-screen v-for="(player,key) in game.players"
@@ -43,9 +45,9 @@ export default {
             avatar: 2,
             color: "green",
             score: 0,
-            staying: false,
-            decided: true,
-            cards: getRandom(cards, 6)
+            staying: true,
+            decided: false,
+            cards: []
           },
           {
             index: 1,
@@ -56,7 +58,7 @@ export default {
             score: 0,
             staying: true,
             decided: false,
-            cards: getRandom(cards, 6)
+            cards: []
           },
           {
             index: 2,
@@ -67,16 +69,12 @@ export default {
             score: 0,
             staying: true,
             decided: false,
-            cards: getRandom(cards, 6)
+            cards: []
           }
         ],
         turn: {
           pilot: 0,
-          phase: 0,
-          // 0: Players decision
-          // 1: Pilot cards
-          // 2: Solo flight
-          // 3: Solo cards
+          flyingSolo: false,
           cloud: 0,
           dice: []
         }
@@ -85,7 +83,10 @@ export default {
   },
   computed: {
     pilot() {
-      return this.game.players[this.game.turn.pilot % this.game.players.length];
+      return this.game.players[this.pilotIndex];
+    },
+    pilotIndex() {
+      return this.game.turn.pilot % this.game.players.length;
     },
     cloud() {
       const pointsArray = [1, 2, 4, 6, 9, 12, 15, 20, 25];
@@ -102,11 +103,17 @@ export default {
           item.decided === true
       );
       return playersWhoDecided.length === this.game.players.length - 1;
+    },
+    isAlone() {
+      const playersWhoStay = this.game.players.filter(
+        (item, index) => index != this.pilotIndex && item.staying === false
+      );
+      return playersWhoStay.length === this.game.players.length - 1;
     }
   },
   methods: {
     dealStartingHand() {
-      this.game.players.map(player => ({
+      this.game.players = this.game.players.map(player => ({
         ...player,
         cards: getRandom(cards, 6)
       }));
@@ -126,11 +133,22 @@ export default {
       }
       this.game.turn.dice = diceValues;
     },
-    changeCloud() {
-      this.game.turn.cloud++;
+    clearDice() {
+      let faces = [];
+      for (let i = 0; i < this.cloud.dice; i++) {
+        faces.push("null");
+      }
+      return faces;
     },
     updatePlayer(data) {
       this.$set(this.game.players, [data.playerChanged], data.player);
+      if (this.pilotIndex === data.playerChanged) {
+        if (data.player.staying === false) {
+          this.nextPilot();
+        } else {
+          this.rollDice();
+        }
+      }
     },
     setPilotSelection(data) {
       this.$set(this.game.players, [data.index], data.player),
@@ -146,18 +164,44 @@ export default {
         }));
 
       if (data.success) {
-        this.nextCloud();
+        if (this.isAlone) {
+          this.game.turn.flyingSolo = true;
+          this.nextCloud(true);
+        } else {
+          this.nextCloud();
+        }
       } else {
         this.nextPilot();
       }
     },
-    nextCloud() {
+    nextCloud(noDice) {
       this.game.turn.cloud++;
-      this.rollDice();
+
+      if (this.game.turn.cloud === 8) {
+        const self = this;
+        const playersLeft = this.game.players.filter(player => player.staying===false);
+        const playersStaying = this.game.players
+          .filter(player => player.staying === true)
+          .map(player => ({
+            ...player,
+            score: player.score + self.cloud.points
+          }));
+         this.game.players = [...playersLeft, ...playersStaying];
+         console.log('aqui');
+         this.nextPilot();
+         return false; 
+      }
+
+      if (!noDice) {
+        this.rollDice();
+      } else {
+        this.game.turn.dice = this.clearDice();
+      }
     },
     nextPilot() {
       this.game.turn.pilot++;
       this.game.turn.cloud = 0;
+      this.game.turn.flyingSolo = false;
       this.game.players = this.game.players.map(player => {
         const newCard = getRandom(cards, 1);
         let playerCards = player.cards;

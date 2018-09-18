@@ -8,12 +8,17 @@
     </a>
     <br/>
     ::{{cardsSelected}} ::
-    <br/>
+    <div v-if="player.decided || !isAlone">
     <button :disabled="!canCommit || !isSelectionCommitable"
       @click="commitSelection(true)">Escolher cartas</button>
     <button :disabled="isChoiceMandatory"
       @click="commitSelection(false)">Desistir</button>
-    <hr/>
+    </div>
+    <div v-else>
+      <button @click="stay()"
+        :disabled="isChoicePossible && !isSelectionCommitable">Ficar</button>
+      <button @click="leave()">Sair</button>
+    </div>
   </div>
 </template>
 
@@ -34,6 +39,7 @@ export default {
     player: Object,
     dice: Array,
     canCommit: Boolean,
+    isAlone:Boolean,
     index: Number,
     points:Number
   },
@@ -117,6 +123,28 @@ export default {
            cards: cardsRemaining
         }
       })
+    },
+    stay() {
+      this.$emit("playerChanged", {
+        playerChanged: this.index,
+        player: {
+          ...this.player,
+          staying: true,
+          decided: true
+        }
+      });
+    },
+    leave() {
+      this.$emit("playerChanged", {
+        playerChanged: this.index,
+        addScore: true,
+        player: {
+          ...this.player,
+          score: this.player.score + this.points,
+          staying: false,
+          decided: true
+        }
+      });
     }
   }
 };

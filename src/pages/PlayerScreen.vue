@@ -34,6 +34,7 @@ export default {
         playerChanged: this.index,
         player: {
           ...this.player,
+          staying: true,
           decided: true
         }
       });
