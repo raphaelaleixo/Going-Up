@@ -1,0 +1,56 @@
+.green {
+  .player-color {
+    fill: $player-green;
+  }
+  .player-color_dark {
+    fill: darken($player-green,20%)
+  }
+}
+
+.red {
+  .player-color {
+    fill: $player-red;
+  }
+  .player-color_dark {
+    fill: darken($player-red,20%)
+  }
+}
+
+.blue {
+  .player-color {
+    fill: $player-blue;
+  }
+  .player-color_dark {
+    fill: darken($player-blue,20%)
+  }
+}
+
+.purple {
+  .player-color {
+    fill: $player-purple;
+  }
+  .player-color_dark {
+    fill: darken($player-purple,10%)
+  }
+}
+
+.yellow {
+  .player-color {
+    fill: $player-yellow;
+  }
+  .player-color_dark {
+    fill: darken($player-yellow,20%)
+  }
+}
+
+.beige {
+  .player-color {
+    fill: $player-beige;
+  }
+  .player-color_dark {
+    fill: darken($player-beige,20%)
+  }
+}
+
+.avatar_1 #face-01 { display:block; }
+.avatar_2 #face-02 { display:block; }

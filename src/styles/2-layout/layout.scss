@@ -1,0 +1,44 @@
+.base {
+  height:100vh;
+  height: calc(var(--vh, 1vh) * 100);
+  width:100vw;
+  overflow:hidden;
+  padding:1em;
+  background: linear-gradient(to bottom, #82addb 0%, #ebb2b1 100%);
+  @include responsive-font(1.2vw, 16px, 24px, 16px);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  @media screen and (min-width:960px) {
+    padding:3.375em;
+  }
+}
+
+.wrapper {
+  height:100%;
+  position:relative;
+}
+
+.header {
+  position:absolute;
+  top:0;
+  height:16.66%;
+  width:100%;
+}
+
+.main {
+  position: absolute;
+  top:16.66%;
+  height:75%;
+  width:100%;
+  display:flex;
+  flex-direction:column;
+  align-items: center;
+  justify-content: center;
+}
+
+.footer {
+  position:absolute;
+  top: 91.66%;
+  width:100%;
+  height:8.33%;
+}

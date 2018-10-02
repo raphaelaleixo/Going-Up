@@ -1,0 +1,78 @@
+.passengers-display {
+  position: absolute;
+  width:50%;
+  height:100%;
+  top:0;
+  margin:0 1em;
+  left:20%;
+  display:flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.passengers-display__passenger {
+  width: 4em;
+  margin:0 0.5em;
+  text-align: center;
+}
+
+.passengers-display__avatar {
+  position: relative;
+  z-index: 1;
+  transform: translateY(2.250em);
+  transition: transform 0.3s ease-out;
+  .decided & {
+    transform: translateY(0);
+  }
+}
+
+.passengers-display__choice {
+  display: inline-block;
+  margin-top:0.5em;
+  width:2.250em;
+  height:2.250em;
+  background:$white;
+  border-radius:50%;
+  position: relative;
+  transform:scale(0);
+  transition: transform 0.3s ease-out;
+  .decided & {
+    transform: scale(1);
+  }
+  &:before {
+    content:'';
+    display:block;
+    position: absolute;
+    border-style: solid;
+    border-color: transparent transparent $white transparent;
+    border-width: 0.5em; 
+    top:-0.8em;
+    left:50%;
+    transform:translateX(-50%);
+  }
+}
+
+.passengers-display__icon {
+  position:absolute;
+  width:1em;
+  height:1em;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+}
+
+.passengers-display__icon--staying {
+  @extend .passengers-display__icon;
+  height:1.125em;
+  width:1.125em;
+  path {
+    fill:$accept-color;
+  }
+}
+
+.passengers-display__icon--leaving {
+  @extend .passengers-display__icon;
+  path {
+    fill:$leave-color;
+  }
+}

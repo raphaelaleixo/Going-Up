@@ -1,0 +1,72 @@
+.scoreboard {
+  position: absolute;
+  width: 25%;
+  height:100%;
+  right:0;
+  top:0;
+  pointer-events: none;
+  margin:0 1em;
+}
+
+.scoreboard__lines {
+  height:100%;
+  display:flex;
+  flex-direction: column-reverse;
+  justify-content: space-between;
+}
+
+.scoreboard__line {
+  display:flex;
+  position:relative;
+  justify-content: space-between;
+  &:before {
+    content:'';
+    display:block;
+    height:1px;
+    width:75%;
+    background:rgba($white, 0.5);
+    position: absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+  }
+}
+
+.scoreboard__score {
+  width: 12.5%;
+  text-align: center;
+  color: rgba($white, 0.5);
+}
+
+.scoreboard__players {
+  position: absolute;
+  top:0;
+  left:0;
+  height:100%;
+  width:100%;
+  display: flex;
+  padding: 0 2em;
+  justify-content: space-around;
+  align-content: center;
+  align-items: flex-end;
+}
+
+.scoreboard__player {
+  width:2em;
+  height:auto;
+  position:relative;
+  top:5%;
+  transition:0.5s ease-out;
+  svg {
+    width:100%;
+    height:auto;
+  }
+}
+
+.scoreboard__player-score {
+  position: absolute;
+  width:100%;
+  text-align: center;
+  top:12%;
+  color: $white;
+}

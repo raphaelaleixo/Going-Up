@@ -1,0 +1,63 @@
+.player-list {
+  position: absolute;
+  width: 25%;
+  height:100%;
+  left:0;
+  top:0;
+  pointer-events: none;
+  margin:0 1em;
+}
+
+.going-up__logo {
+  width: 10em;
+  img {
+    max-width: 100%;
+    display: block;
+  }
+}
+
+.player-list__list {
+  padding: 0;
+  list-style-type: none;
+  margin:2em 0;
+}
+
+.player-list__item {
+  padding:0 0 0 1.5em;
+  margin:0 0 1em;
+  position: relative;
+  line-height: 1;
+  &:before {
+    content:'';
+    display: block;
+    width:1.25em;
+    height:1.25em;
+    border-radius: 50%;
+    background:red;
+    border:0.15em solid $white;
+    position: absolute;
+    left:0;
+    top:0;
+  }
+  &.green:before { background: $player-green }
+  &.blue:before { background: $player-blue }
+  &.red:before { background: $player-red }
+  &.purple:before { background: $player-purple }
+  &.beige:before { background: $player-beige }
+  &.yellow:before { background: $player-yellow }
+}
+
+.player-list__name {
+  text-transform: uppercase;
+  font-size: 1.250em;
+  .green & { color: darken($player-green,20%)}
+  .blue & { color: darken($player-blue,20%)}
+  .red & { color: darken($player-red,20%)}
+  .purple & { color: darken($player-purple,20%)}
+  .beige & { color: darken($player-beige,20%)}
+  .yellow & { color: darken($player-yellow,20%)}
+}
+
+.player-list__cards {
+  display: block;
+}

@@ -11,7 +11,7 @@
     <div v-if="player.decided || !isAlone">
     <button :disabled="!canCommit || !isSelectionCommitable"
       @click="commitSelection(true)">Escolher cartas</button>
-    <button :disabled="isChoiceMandatory"
+    <button :disabled="isChoiceMandatory || !canCommit"
       @click="commitSelection(false)">Desistir</button>
     </div>
     <div v-else>
