@@ -1,0 +1,27 @@
+.pilot-display {
+  position: absolute;
+  width: 50%;
+  height: 100%;
+  top: 0;
+  margin: 0 1em;
+  left: 20%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pilot-display__pilot {
+  position: relative;
+}
+
+.pilot-display__avatar {
+  width: 4.6em;
+  top: -2em;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.pilot-display__balloon {
+  width: 12.5em;
+}

@@ -1,15 +1,12 @@
 <template>
-  <div id="app" class="base">
-    <Board/>
+  <div id="app"
+    class="base">
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
-import Board from './pages/Board.vue';
 export default {
-  name: 'app',
-  components: {
-    Board
-  }
+  name: 'app'
 }
 </script>
