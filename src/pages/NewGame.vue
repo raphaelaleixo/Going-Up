@@ -49,7 +49,7 @@
       }
     },
     computed: {
-      ...mapGetters(['getNewGame']),
+      ...mapGetters(['game']),
       colorsUsed () {
         return this.players.map(player => player.color);
       },
@@ -97,7 +97,7 @@
             pilot: 0,
             flyingSolo: false,
             cloud: 0,
-            dice: ['', '']
+            dice: ['?', '?']
           }
         }
         await this.createNewGame(game)

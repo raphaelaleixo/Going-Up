@@ -23,22 +23,9 @@
   import GuiPilot from '@/components/GuiPilot.vue'
   export default {
     computed: {
-      ...mapGetters({
-        game: 'getNewGame'
-      }),
-      cloud () {
-        const pointsArray = [1, 2, 4, 6, 9, 12, 15, 20, 25]
-        const diceArray = [2, 2, 2, 3, 3, 3, 4, 4, 0]
-        return {
-          dice: diceArray[this.game.turn.cloud],
-          points: pointsArray[this.game.turn.cloud]
-        }
-      },
+      ...mapGetters(['game', 'pilotIndex', 'cloud']),
       player () {
         return this.game.players[this.$route.params.player]
-      },
-      pilotIndex () {
-        return this.game.turn.pilot % this.game.players.length
       },
       playerIsPilot () {
         return this.$route.params.player == this.pilotIndex

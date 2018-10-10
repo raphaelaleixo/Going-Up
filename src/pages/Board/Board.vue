@@ -11,6 +11,7 @@
       :dice="game.turn.dice" />
     <passengers-display :players="passengers" />
     <scoreboard :players="game.players" />
+    <button @click="rollDice">Teste</button>
   </div>
 </template>
 
@@ -27,48 +28,20 @@
 
   export default {
     computed: {
-      ...mapGetters({
-        game: 'getNewGame'
-      }),
+      ...mapGetters(['game', 'pilotIndex', 'cloud']),
       pilot () {
         return this.game.players[this.pilotIndex]
       },
       passengers () {
         return this.game.players.filter(player => player.index !== this.pilotIndex)
-      },
-      pilotIndex () {
-        return this.game.turn.pilot % this.game.players.length
-      },
-      cloud () {
-        const pointsArray = [1, 2, 4, 6, 9, 12, 15, 20, 25]
-        const diceArray = [2, 2, 2, 3, 3, 3, 4, 4, 0]
-        return {
-          dice: diceArray[this.game.turn.cloud],
-          points: pointsArray[this.game.turn.cloud]
-        }
       }
     },
     methods: {
-      ...mapActions(['updateGame', 'joinExistingGame']),
-      rollDice () {
-        const randomValue = () => {
-          const value = Math.floor(Math.random() * 6) + 1
-          if (value === 3) return 'purple'
-          else if (value === 4) return 'yellow'
-          else if (value === 5) return 'red'
-          else if (value === 6) return 'green'
-          else return ''
-        }
-        let diceValues = []
-        for (let i = 0; i < this.cloud.dice; i++) {
-          diceValues.push(randomValue())
-        }
-        this.game.turn.dice = diceValues
-      },
+      ...mapActions(['updateGame', 'joinExistingGame', 'rollDice']),
       clearDice () {
         let faces = []
         for (let i = 0; i < this.cloud.dice; i++) {
-          faces.push('null')
+          faces.push('?')
         }
         return faces
       },
@@ -154,7 +127,7 @@
       PilotDisplay,
       PassengersDisplay
     },
-    created () {
+    mounted () {
       this.joinExistingGame(this.$route.params.id)
     }
   };
